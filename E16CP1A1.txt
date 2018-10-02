@@ -1,0 +1,57 @@
+1. felipe=# create database call_list;
+CREATE DATABASE
+
+2. call_list=# create table users (
+call_list(# id serial primary key,
+call_list(# first_name varchar(30),
+call_list(# email text not null unique
+call_list(# );
+CREATE TABLE
+
+3. y 4. call_list=# insert into users (first_name, email) values ('Carlos', 'carlos@gmail.com'), ('Laura', 'laura@gmail.com');
+INSERT 0 2
+
+5. call_list=# create table call (
+call_list(# user_id integer references users(id),
+call_list(# phone integer,
+call_list(# date date,
+call_list(# id integer,
+call_list(# primary key (user_id, id)
+call_list(# );
+CREATE TABLE
+
+6. call_list=# alter table users add column last_name text;
+ALTER TABLE
+
+7. call_list=# update users set last_name = 'urzua' where id = 1;
+UPDATE 1
+
+8. call_list=# update users set last_name = 'castro' where id = 2;
+UPDATE 1
+
+9. call_list=# insert into call (user_id, phone, date, id) values (2, 67676767, '2000-01-01', 1);
+INSERT 0 1
+call_list=# insert into call (user_id, phone, date, id) values (2, 67676767, '2000-01-01', 2), (2, 67676767, '2000-01-01', 3), (2, 67676767, '2000-01-01', 4), (2, 67676767, '2000-01-01', 5), (2, 67676767, '2000-01-01', 6);
+INSERT 0 5
+
+10. call_list=# insert into call(user_id, phone, date, id) values (1, 12345678, '2001-01-01', 7), (1, 12345678, '2001-01-01', 8), (1, 12345678, '2001-01-01', 9), (1, 12345678, '2001-01-01', 10);
+INSERT 0 4
+
+11. call_list=# insert into users (first_name, email) values ('Cristina', 'cristina@gmail.com');
+INSERT 0 1
+
+12. call_list=# select first_name, count(phone) from users inner join call on (users.id = call.user_id) group by first_name;
+ first_name | count
+------------+-------
+ Carlos     |     4
+ Laura      |     6
+(2 rows)
+
+13. call_list=# select call.* from users left join call on (users.id = call.user_id) where first_name = 'Carlos' order by date desc;
+ user_id |  phone   |    date    | id
+---------+----------+------------+----
+       1 | 12345678 | 2001-01-01 |  7
+       1 | 12345678 | 2001-01-01 |  8
+       1 | 12345678 | 2001-01-01 |  9
+       1 | 12345678 | 2001-01-01 | 10
+(4 rows)
